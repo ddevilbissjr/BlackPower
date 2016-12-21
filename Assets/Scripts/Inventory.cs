@@ -26,6 +26,24 @@ public class Inventory : MonoBehaviour {
             SetIntoLists(child.GetComponent<Item>());
         }
 
+        SetCurrentItem(currentSlot);
+    } 
+
+    void Start () {
+		
+	}
+	
+	void Update () {
+
+        if (Input.GetKeyDown(KeyCode.F)) {
+            if (UI.mechanismUI.initialized) {
+                UI.UISwitchTo(UIClass.mechanismUI);
+            } else {
+                InitializeUI(UIClass.mechanismUI);
+                UI.UISwitchTo(UIClass.mechanismUI);
+            }
+        }
+
         foreach (Item bar in hotbar) {
             if (bar != null) {
                 bar.transform.parent = transform.FindChild("Hotbar");
@@ -37,54 +55,12 @@ public class Inventory : MonoBehaviour {
                 inv.transform.parent = transform.FindChild("Inventory");
             }
         }
-
-        SetCurrentItem(currentSlot);
-    } 
-
-    void Start () {
-		
-	}
-	
-	void Update () {
-        if(Input.GetKeyDown(KeyCode.E)) {
-            if(UI.currentUIEnabled != UIClass.hotbarUI) {
-                UI.UISwitchTo(UIClass.hotbarUI);
-            } else {
-                UI.UISwitchTo(UIClass.inventoryUI);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.F)) {
-            if (UI.mechanismUI.initialized) {
-                UI.UISwitchTo(UIClass.mechanismUI);
-            } else {
-                InitializeUI(UIClass.mechanismUI);
-                UI.UISwitchTo(UIClass.mechanismUI);
-            }
-        }
-
-        if(testBool) {
-            testBool = false;
-            foreach (Transform child in transform.FindChild("ToBePlacedIntoInventories")) {
-                SetIntoLists(child.GetComponent<Item>());
-            }
-
-            foreach (Item bar in hotbar) {
-                if (bar != null) {
-                    bar.transform.parent = transform.FindChild("Hotbar");
-                }
-            }
-
-            foreach (Item inv in inventory) {
-                if (inv != null) {
-                    inv.transform.parent = transform.FindChild("Inventory");
-                }
-            }
-        }
     }
 
     void InstantiateUI () {
         UI = (Instantiate(Resources.Load("UI/UI")) as GameObject).GetComponent<UI>();
+
+        UI.inventory = this;
 
         if (hotbar.Count < hotbarSize) {
             for (int i = hotbar.Count - 1; i < hotbarSize - 1; i++) {
@@ -100,27 +76,31 @@ public class Inventory : MonoBehaviour {
     }
 
     void InitializeUI (UIClass type) {
-        foreach (Item bar in hotbar) {
+        for(int i = 0; i < hotbar.Count; i++) {
+            Item bar = hotbar[i];
+
             switch (type) {
                 case UIClass.hotbarUI:
-                    UI.SetSlotFor(UITypes.hotbarUI_hotslots);
+                    UI.SetSlotFor(UISlotType.hotbar, UITypes.hotbarUI_hotslots, i);
                     break;
                 case UIClass.inventoryUI:
-                    UI.SetSlotFor(UITypes.inventoryUI_hotSlots);
+                    UI.SetSlotFor(UISlotType.hotbar, UITypes.inventoryUI_hotSlots, i);
                     break;
                 case UIClass.mechanismUI:
-                    UI.SetSlotFor(UITypes.mechanismUI_hotSlots);
+                    UI.SetSlotFor(UISlotType.hotbar, UITypes.mechanismUI_hotSlots, i);
                     break;
             }
         }
 
-        foreach (Item inv in inventory) {
+        for(int i = 0; i < inventory.Count; i++) {
+            Item inv = inventory[i];
+
             switch (type) {
                 case UIClass.inventoryUI:
-                    UI.SetSlotFor(UITypes.inventoryUI_invSlots);
+                    UI.SetSlotFor(UISlotType.inventory, UITypes.inventoryUI_invSlots, i);
                     break;
                 case UIClass.mechanismUI:
-                    UI.SetSlotFor(UITypes.mechanismUI_invSlots);
+                    UI.SetSlotFor(UISlotType.inventory, UITypes.mechanismUI_invSlots, i);
                     break;
             }
         }
@@ -139,6 +119,24 @@ public class Inventory : MonoBehaviour {
                 Debug.Log("None set for " + type.ToString());
                 break;
         }
+    }
+
+    public bool OpenUI (UISlotType type) {
+        bool openOrClosed = false;
+
+        switch (type) {
+            case UISlotType.inventory:
+                if (UI.currentUIEnabled != UIClass.hotbarUI) {
+                    openOrClosed = false;
+                    UI.UISwitchTo(UIClass.hotbarUI);
+                } else {
+                    openOrClosed = true;
+                    UI.UISwitchTo(UIClass.inventoryUI);
+                }
+                break;
+        }
+
+        return openOrClosed;
     }
     
     public Item GetCurrentItem () {
@@ -206,9 +204,47 @@ public class Inventory : MonoBehaviour {
     public void RemoveForPlacing (UISlotType type) {
         UI.SetIconTo(type, null, GetCurrentItemNum());
 
-        hotbar[GetCurrentItemNum()] = null;
-        Destroy(currentItem.gameObject);
+        RemoveFromInventory(type, GetCurrentItemNum(), currentItem.gameObject);
+
         currentItem = hotbar[GetCurrentItemNum()];
+    }
+
+    public void RemoveFromInventory (UISlotType type, int slotNumber, GameObject toDestroy) {
+
+        switch (type) {
+            case UISlotType.hotbar:
+                hotbar[slotNumber] = null;
+                break;
+            case UISlotType.inventory:
+                inventory[slotNumber] = null;
+                break;
+        }
+
+        Destroy(toDestroy);
+    }
+
+    public void MoveInInventory (UISlotType previousType, int previousNumber, Item previousItem, UISlotType nextType, int nextNumber, Item nextItem) {
+
+        switch (previousType) {
+            case UISlotType.hotbar:
+                hotbar[previousNumber] = previousItem;
+                break;
+            case UISlotType.inventory:
+                inventory[previousNumber] = previousItem;
+                break;
+        }
+
+        switch (nextType) {
+            case UISlotType.hotbar:
+                hotbar[nextNumber] = nextItem;
+                break;
+            case UISlotType.inventory:
+                inventory[nextNumber] = nextItem;
+                break;
+        }
+
+        currentItem = hotbar[GetCurrentItemNum()];
+
     }
 
     public void SetIntoInventoriesShortcut (UISlotType type, Item item, int slot) {
@@ -217,7 +253,6 @@ public class Inventory : MonoBehaviour {
                 hotbar[slot] = item;
 
                 if(UI.hotbarUI.initialized) {
-                    Debug.Log("1");
                     UI.SetIconTo(type, item, slot);
                 }
 

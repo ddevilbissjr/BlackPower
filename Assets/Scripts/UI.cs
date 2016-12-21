@@ -7,29 +7,42 @@ public class UI : MonoBehaviour {
 
     public UIClass currentUIEnabled = UIClass.hotbarUI;
 
+    public Inventory inventory;
+
     public HotbarUI hotbarUI;
     public InventoryUI inventoryUI;
     public MechanismUI mechanismUI;
 
-	public void SetSlotFor (UITypes type) {
-        switch (type) {
-            case UITypes.hotbarUI_hotslots:
-                hotbarUI.hotSlots.Add(CreateSlot(hotbarUI.hotbarGo.transform));
+	public void SetSlotFor (UISlotType slotType, UITypes type, int slotNumber) {
+        switch (slotType) {
+            case UISlotType.hotbar:
+                switch (type) {
+                    case UITypes.hotbarUI_hotslots:
+                        hotbarUI.hotSlots.Add(CreateSlot(hotbarUI, slotType, hotbarUI.hotbarGo.transform, slotNumber));
+                        break;
+                    case UITypes.inventoryUI_hotSlots:
+                        inventoryUI.hotSlots.Add(CreateSlot(inventoryUI, slotType, inventoryUI.hotbarGo.transform, slotNumber));
+                        break;
+                    case UITypes.mechanismUI_hotSlots:
+                        mechanismUI.hotSlots.Add(CreateSlot(mechanismUI, slotType, mechanismUI.hotbarGo.transform, slotNumber));
+                        break;
+                    default:
+                        Debug.Log("None set for " + type.ToString());
+                        break;
+                }
                 break;
-            case UITypes.inventoryUI_hotSlots:
-                inventoryUI.hotSlots.Add(CreateSlot(inventoryUI.hotbarGo.transform));
-                break;
-            case UITypes.inventoryUI_invSlots:
-                inventoryUI.invSlots.Add(CreateSlot(inventoryUI.inventoryGo.transform));
-                break;
-            case UITypes.mechanismUI_hotSlots:
-                mechanismUI.hotSlots.Add(CreateSlot(mechanismUI.hotbarGo.transform));
-                break;
-            case UITypes.mechanismUI_invSlots:
-                mechanismUI.invSlots.Add(CreateSlot(mechanismUI.inventoryGo.transform));
-                break;
-            default:
-                Debug.Log("None set for " + type.ToString());
+            case UISlotType.inventory:
+                switch (type) {
+                    case UITypes.inventoryUI_invSlots:
+                        inventoryUI.invSlots.Add(CreateSlot(inventoryUI, slotType, inventoryUI.inventoryGo.transform, slotNumber));
+                        break;
+                    case UITypes.mechanismUI_invSlots:
+                        mechanismUI.invSlots.Add(CreateSlot(mechanismUI, slotType, mechanismUI.inventoryGo.transform, slotNumber));
+                        break;
+                    default:
+                        Debug.Log("None set for " + type.ToString());
+                        break;
+                }
                 break;
         }
     }
@@ -97,14 +110,25 @@ public class UI : MonoBehaviour {
         }
     }
 
-    public Slot CreateSlot (Transform soonToBeParent) {
+    public Slot CreateSlot (BaseUI inventory, UISlotType type, Transform soonToBeParent, int slotNumber) {
         GameObject clone = Instantiate(Resources.Load("UI/Slot"), soonToBeParent) as GameObject;
-        return clone.GetComponent<Slot>();
+        Slot slot = clone.GetComponent<Slot>();
+
+        slot.slotNumber = slotNumber;
+        slot.slotType = type;
+        slot.inventory = inventory;
+        slot.UI = this;
+
+        return slot;
     }
 
     public ItemData CreateSlotPlaceholder (Item item, Slot slot) {
         GameObject clone = Instantiate(Resources.Load("UI/SlotPlaceholder"), slot.transform) as GameObject;
         ItemData data = clone.GetComponent<ItemData>();
+
+        data.slotNumber = slot.slotNumber;
+        data.slotType = slot.slotType;
+        data.inventory = slot.inventory;
 
         if (item != null) {
             data.Settings(item);
@@ -161,31 +185,33 @@ public enum UITypes {
 }
 
 [System.Serializable]
-public class HotbarUI {
-    public GameObject baseGo;
-    public GameObject hotbarGo;
+public class BaseUI {
     public List<Slot> hotSlots = new List<Slot>();
-    public bool initialized = false;
-}
-
-[System.Serializable]
-public class InventoryUI {
-    public GameObject baseGo;
-    public GameObject hotbarGo;
-    public List<Slot> hotSlots = new List<Slot>();
-    public GameObject inventoryGo;
     public List<Slot> invSlots = new List<Slot>();
+    public GameObject baseGo;
+}
+
+[System.Serializable]
+public class HotbarUI : BaseUI {
+    public GameObject hotbarGo;
+
     public bool initialized = false;
 }
 
 [System.Serializable]
-public class MechanismUI {
+public class InventoryUI : BaseUI {
+    public GameObject hotbarGo;
+    public GameObject inventoryGo;
+    
+    public bool initialized = false;
+}
+
+[System.Serializable]
+public class MechanismUI : BaseUI {
+    public GameObject hotbarGo;
+    public GameObject inventoryGo;
     public Text blockName;
     public Text blockDescription;
-    public GameObject baseGo;
-    public GameObject hotbarGo;
-    public List<Slot> hotSlots = new List<Slot>();
-    public GameObject inventoryGo;
-    public List<Slot> invSlots = new List<Slot>();
+
     public bool initialized = false;
 }

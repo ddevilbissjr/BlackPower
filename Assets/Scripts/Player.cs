@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Player : MonoBehaviour {
 
@@ -51,6 +52,14 @@ public class Player : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
             SwitchItem(8);
+        }
+
+        if(Input.GetKeyDown(KeyCode.E)) {
+            bool openedOrClosed = !inventory.OpenUI(UISlotType.inventory);
+
+            GetComponent<FirstPersonController>().m_MouseLook.SetCursorLock(openedOrClosed);
+            GetComponent<FirstPersonController>().enabled = openedOrClosed;
+            GetComponent<CharacterController>().enabled = openedOrClosed;
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") > 0f) { //If mouse-scrolled up.

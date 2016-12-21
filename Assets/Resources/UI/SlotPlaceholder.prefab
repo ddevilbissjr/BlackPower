@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224142004338492958}
   - component: {fileID: 114404901046113260}
   - component: {fileID: 114959384145695376}
+  - component: {fileID: 225731418367143782}
   m_Layer: 0
   m_Name: SlotPlaceholder
   m_TagString: Untagged
@@ -74,12 +75,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  slotType: 0
   type: 0
   itemName: 
   howMany: 0
   sprite: {fileID: 0}
   itemImage: {fileID: 114485656327782442}
   howManyNum: {fileID: 114877482819447178}
+  canvasGroup: {fileID: 225731418367143782}
 --- !u!114 &114485656327782442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -226,3 +229,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225731418367143782
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127379783221092}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

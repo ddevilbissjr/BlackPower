@@ -214,25 +214,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentUIEnabled: 0
   hotbarUI:
+    hotSlots: []
+    invSlots: []
     baseGo: {fileID: 1995511978672732}
     hotbarGo: {fileID: 1995511978672732}
-    hotSlots: []
     initialized: 0
   inventoryUI:
+    hotSlots: []
+    invSlots: []
     baseGo: {fileID: 1818053800465594}
     hotbarGo: {fileID: 1835307669675600}
-    hotSlots: []
     inventoryGo: {fileID: 1758596101239274}
-    invSlots: []
     initialized: 0
   mechanismUI:
-    blockName: {fileID: 114351558711675152}
-    blockDescription: {fileID: 114374988633243926}
+    hotSlots: []
+    invSlots: []
     baseGo: {fileID: 1507067950106202}
     hotbarGo: {fileID: 1975351842128344}
-    hotSlots: []
     inventoryGo: {fileID: 1383680874860132}
-    invSlots: []
+    blockName: {fileID: 114351558711675152}
+    blockDescription: {fileID: 114374988633243926}
     initialized: 0
 --- !u!114 &114236383463686242
 MonoBehaviour:
@@ -716,7 +717,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224814090996475836}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -770,8 +771,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224892538787620158}
-  - {fileID: 224872914000231570}
   - {fileID: 224568948787062950}
+  - {fileID: 224872914000231570}
   m_Father: {fileID: 224299916370254800}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -791,7 +792,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224814090996475836}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

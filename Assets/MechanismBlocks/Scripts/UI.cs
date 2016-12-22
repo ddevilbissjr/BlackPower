@@ -7,13 +7,22 @@ public class UI : MonoBehaviour {
 
     public UIClass currentUIEnabled = UIClass.hotbarUI;
 
+    public RectTransform itemInfo;
+
     public Inventory inventory;
 
     public HotbarUI hotbarUI;
     public InventoryUI inventoryUI;
     public MechanismUI mechanismUI;
 
-	public void SetSlotFor (UISlotType slotType, UITypes type, int slotNumber) {
+    private void Update () {
+        if(currentUIEnabled == UIClass.hotbarUI) {
+            itemInfo.gameObject.SetActive(false);
+            itemInfo.GetComponent<CanvasGroup>().alpha = 0;
+        }
+    }
+
+    public void SetSlotFor (UISlotType slotType, UITypes type, int slotNumber) {
         switch (slotType) {
             case UISlotType.hotbar:
                 switch (type) {
@@ -217,8 +226,20 @@ public class MechanismUI : BaseUI {
     public int currentCustomUI = 0;
 
     public Component GetAndSetCustomUI (int numberInList) {
+        TurnOffAllCustomUIBut((MonoBehaviour) customUI[numberInList]);
+
         currentCustomUI = numberInList;
         return customUI[numberInList];
+    }
+
+    public void TurnOffAllCustomUIBut (MonoBehaviour c) {
+        foreach(MonoBehaviour cp in customUI) {
+            cp.gameObject.SetActive(false);
+            cp.enabled = false;
+        }
+
+        c.gameObject.SetActive(true);
+        c.enabled = true;
     }
 
     public bool initialized = false;

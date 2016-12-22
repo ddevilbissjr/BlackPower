@@ -11,12 +11,12 @@ public class PlacingBlock : MonoBehaviour {
     }
 
     public void Placing_Block (Vector3 coords) {
-        if (transform.parent != null) {
-            transform.parent = null;
+        if (transform.parent.parent != null) {
+            transform.parent.parent = null;
         }
 
-        transform.position = coords;
-        transform.rotation = Quaternion.identity;
+        transform.parent.position = coords;
+        transform.parent.rotation = Quaternion.identity;
     }
 
     public void IsOverlapping () {

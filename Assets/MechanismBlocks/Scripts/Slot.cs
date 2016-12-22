@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IDropHandler {
+public class Slot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
     public UI UI;
 
@@ -14,6 +15,24 @@ public class Slot : MonoBehaviour, IDropHandler {
     public Inventory playerInventory;
     public BaseUI inventory;
     public int slotNumber;
+
+    public bool mouseIsOverSlot;
+
+    void Update () {
+        if (mouseIsOverSlot && itemData.item != null) {
+            RectTransform itemInfoParent = UI.itemInfo;
+            Text itemInfo = itemInfoParent.GetComponentInChildren<Text>();
+
+            if (!itemInfoParent.gameObject.activeSelf) {
+                itemInfoParent.gameObject.SetActive(true);
+            }
+
+            itemInfoParent.position = new Vector2(transform.position.x, transform.position.y) + new Vector2(0, 100);
+
+            itemInfo.text = itemData.itemName;
+            itemInfo.color = GetTextColor();
+        }
+    }
 
     public void OnDrop (PointerEventData eventData) {
         playerInventory = UI.inventory;
@@ -49,5 +68,33 @@ public class Slot : MonoBehaviour, IDropHandler {
             itemData.slotNumber = item.slotNumber;
             itemData.inventory = item.inventory;
         }
+    }
+
+    public void OnPointerEnter (PointerEventData eventData) {
+        if(UI.itemInfo.GetComponent<CanvasGroup>().alpha == 0 && itemData.item != null) {
+            UI.itemInfo.GetComponent<CanvasGroup>().alpha = 1;
+        }
+
+        mouseIsOverSlot = true;
+    }
+
+    public void OnPointerExit (PointerEventData eventData) {
+        RectTransform itemInfoParent = UI.itemInfo;
+
+        if (itemInfoParent.gameObject.activeSelf) {
+            itemInfoParent.gameObject.SetActive(false);
+        }
+
+        mouseIsOverSlot = false;
+    }
+
+    public Color GetTextColor () {
+        Color color = Color.black;
+
+        if (itemData.item.GetType().IsSubclassOf(typeof(Mechanism))) {
+            color = Color.red;
+        }
+
+        return color;
     }
 }

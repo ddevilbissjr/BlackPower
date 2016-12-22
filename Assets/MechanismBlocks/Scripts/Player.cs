@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityStandardAssets.Characters.FirstPerson;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Player : MonoBehaviour {
 
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour {
             Cursor.visible = true;
         }
 
-        //GetComponent<FirstPersonController>().enabled = value;
+        GetComponent<FirstPersonController>().enabled = value;
         GetComponent<CharacterController>().enabled = value;
     }
 
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour {
     }
 
     void PlaceBlock () {
-        inventory.PlaceBlock(playerMode, placeCoords);
+        inventory.PlaceBlock(playerMode, placeCoords + new Vector3(0, 0.5f, 0));
     }
 
     void SwitchItem (int num) {
@@ -177,9 +177,8 @@ public class Player : MonoBehaviour {
         BlackPowerUI bpUI = (BlackPowerUI) inventory.UI.mechanismUI.GetAndSetCustomUI(0);
 
         bpUI.item = item;
-
-        bool openedOrClosed = !inventory.OpenUI(UIClass.mechanismUI);
-        LockCursor(openedOrClosed);
+        
+        LockCursor(!inventory.OpenUI(UIClass.mechanismUI));
     }
 
     Vector3 HitCoords (Vector3 point, Vector3 normal) {
@@ -188,33 +187,17 @@ public class Player : MonoBehaviour {
         Vector3 combined = new Vector3();
 
         if (point.x < 0) {
-
-            combined.x = point.x - Mathf.Abs(normal.x / 2) - 0.5f;
-
+            combined.x = normal.x/2 + point.x - 0.5f;
         } else if (point.x > 0) {
-
-            combined.x = point.x + Mathf.Abs(normal.x / 2) + 0.5f;
-
+            combined.x = normal.x/2 + point.x + 0.5f;
         }
 
-        if (point.y < 0) {
-
-            combined.y = point.y - Mathf.Abs(normal.y / 2) - 0.5f;
-
-        } else if (point.y > 0) {
-
-            combined.y = point.y + Mathf.Abs(normal.y / 2) + 0.5f;
-
-        }
+        combined.y = point.y + normal.y / 2;
 
         if (point.z < 0) {
-
-            combined.z = point.z - Mathf.Abs(normal.z / 2) - 0.5f;
-
+            combined.z = normal.z/2 + point.z - 0.5f;
         } else if (point.z > 0) {
-
-            combined.z = point.z + Mathf.Abs(normal.z / 2) + 0.5f;
-
+            combined.z = normal.z/2 + point.z + 0.5f;
         }
 
         x1 = (int) (combined.x) / 1.0f;

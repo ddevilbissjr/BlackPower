@@ -9,9 +9,6 @@ public class Player : MonoBehaviour {
     public Camera cam;
     public Inventory inventory;
     public PlacingBlock placingBlock;
-    public Vector3 point;
-    public Vector3 normal;
-    public Vector3 comb;
     public Vector3 placeCoords;
 
     private float rayDistance = 5.0f;
@@ -95,30 +92,6 @@ public class Player : MonoBehaviour {
             Debug.DrawRay(ray.origin, ray.direction * Vector3.Distance(ray.origin, hit.point), Color.green);
             Debug.DrawRay(hit.point, hit.normal/2, Color.green);
 
-            point = new Vector3 (
-
-                hit.point.x,
-                hit.point.y,
-                hit.point.z
-
-            );
-
-            normal = new Vector3(
-
-                hit.normal.x,
-                hit.normal.y,
-                hit.normal.z
-
-            );
-
-            comb = new Vector3(
-
-                hit.point.x + hit.normal.x/2,
-                hit.point.y + hit.normal.y/2,
-                hit.point.z + hit.normal.z/2
-
-            );
-
             placeCoords = HitCoords(hit.point, hit.normal);
             placingBlock.Placing_Block(placeCoords);
 
@@ -127,29 +100,29 @@ public class Player : MonoBehaviour {
                 Item item = hitGo.GetComponent<Item>();
 
                 if (item.GetType().IsSubclassOf(typeof(Mechanism))) { // If type is equal to mechanism.
-                    if (Input.GetKey(KeyCode.LeftControl) && !placingBlock.isOverlapping) { // If the player is crouching and the placing block is not overlapping when trying to place a block with a type Mechanism.
+                    if (Input.GetKey(KeyCode.LeftControl)) { // If the player is crouching and the placing block is not overlapping when trying to place a block with a type Mechanism.
 
-                        if (Input.GetMouseButtonDown(1)) {
+                        if (Input.GetMouseButtonDown(1) && !placingBlock.isOverlapping) {
                             PlaceBlock();
                         }
 
                     } else if (!Input.GetKey(KeyCode.LeftControl)) { // If the player not crouching when trying to place a block with a type Mechanism.
                         placingBlock.Placing_Block_Disable();
 
-                        if (Input.GetMouseButtonDown(1)) {
+                        if (Input.GetMouseButtonDown(1) && !placingBlock.isOverlapping) {
                             UseItem((Mechanism) item);
                         }
                     }
                 } else { // If is not equal to mechanism.
 
-                    if (Input.GetMouseButtonDown(1)) {
+                    if (Input.GetMouseButtonDown(1) && !placingBlock.isOverlapping) {
                         PlaceBlock();
                     }
                 }
                 
             } else { //If the object hit does not have an Item-inherited component.
 
-                if (Input.GetMouseButtonDown(1)) {
+                if (Input.GetMouseButtonDown(1) && !placingBlock.isOverlapping) {
                     PlaceBlock();
                 }
             }

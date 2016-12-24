@@ -8,6 +8,9 @@ public class UI : MonoBehaviour {
     public UIClass currentUIEnabled = UIClass.hotbarUI;
 
     public RectTransform itemInfo;
+    public RectTransform currentSlotMarker;
+
+    bool currentSlotMarkerIsInitialized = false;
 
     public Inventory inventory;
 
@@ -15,7 +18,7 @@ public class UI : MonoBehaviour {
     public InventoryUI inventoryUI;
     public MechanismUI mechanismUI;
 
-    private void Update () {
+    void Update () {
         if(currentUIEnabled == UIClass.hotbarUI) {
             itemInfo.gameObject.SetActive(false);
             itemInfo.GetComponent<CanvasGroup>().alpha = 0;
@@ -171,6 +174,19 @@ public class UI : MonoBehaviour {
         hotbarUI.baseGo.SetActive(false);
         inventoryUI.baseGo.SetActive(false);
         mechanismUI.baseGo.SetActive(false);
+    }
+
+    public void CurrentSlotMarker (int slot) {
+        if(!currentSlotMarkerIsInitialized) {
+            currentSlotMarkerIsInitialized = true;
+
+            currentSlotMarker.gameObject.SetActive(true);
+            currentSlotMarker.SetAsLastSibling();
+        }
+
+        int newXPos = (slot - 4) * 50;
+
+        currentSlotMarker.anchoredPosition = new Vector2(newXPos, currentSlotMarker.anchoredPosition.y);
     }
 }
 

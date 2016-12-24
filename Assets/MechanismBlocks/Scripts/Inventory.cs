@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     
-    public List<Item> hotbar = new List<Item>();
-    public List<Item> inventory = new List<Item>();
     public Transform hotbarTransform;
     public Transform inventoryTransform;
     public Transform toBePlacedIntoInventories;
-
-    private int hotbarSize = 9;
-    private int inventorySize = 27;
-
+    
     public UI UI;
 
     public Item currentItem;
     public int currentSlot = 0;
+
+    public int hotbarSize = 9;
+    public int inventorySize = 27;
+    public List<Item> hotbar = new List<Item>();
+    public List<Item> inventory = new List<Item>();
 
     void Awake () {
         InstantiateUI();
@@ -144,6 +144,7 @@ public class Inventory : MonoBehaviour {
         currentSlot = id;
         currentItem = hotbar[id];
         DisableAllItemsBut(id);
+        UI.CurrentSlotMarker(id);
     }
 
     public int GetCurrentItemNum () {

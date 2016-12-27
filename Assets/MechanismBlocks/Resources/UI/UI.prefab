@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 222992167600059740}
   - component: {fileID: 114330551015570038}
   - component: {fileID: 225780949550530924}
+  - component: {fileID: 114488884453291016}
   m_Layer: 2
   m_Name: Item
   m_TagString: Untagged
@@ -504,10 +505,6 @@ MonoBehaviour:
     blockName: {fileID: 114351558711675152}
     blockDescription: {fileID: 114374988633243926}
     customUI:
-    - {fileID: 114833941064014498}
-    - {fileID: 114833941064014498}
-    - {fileID: 114833941064014498}
-    - {fileID: 114833941064014498}
     - {fileID: 114833941064014498}
     currentCustomUI: 0
     initialized: 0
@@ -920,6 +917,24 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'CurrentPower:'
+--- !u!114 &114488884453291016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884789998005040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
 --- !u!114 &114499162000228538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1729,7 +1744,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1642113974806234}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

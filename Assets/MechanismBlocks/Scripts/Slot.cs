@@ -27,7 +27,11 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerE
                 itemInfoParent.gameObject.SetActive(true);
             }
 
-            itemInfoParent.position = new Vector2(transform.position.x, transform.position.y) + new Vector2(0, 100);
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Input.mousePosition, Camera.main, out pos);
+            float scaleFactor = UI.GetComponent<Canvas>().scaleFactor;
+
+            itemInfoParent.position = transform.TransformPoint(pos) + new Vector3(0, itemInfoParent.rect.height * scaleFactor, 0);
 
             itemInfo.text = itemData.itemName;
             itemInfo.color = GetTextColor();

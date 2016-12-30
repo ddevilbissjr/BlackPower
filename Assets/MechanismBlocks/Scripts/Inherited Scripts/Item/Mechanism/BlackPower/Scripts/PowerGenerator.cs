@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerGenerator : Mechanism {
+public class PowerGenerator : BlackPower {
 
     private void Reset () {
-        type = BlackPowerItems.PowerGenerator;
+        type = ItemTypes.PowerGenerator;
     }
 
     // Use this for initialization
     void Start () {
-        currentPower = BlackPower.getPower(maxPower) / BlackPower.getPower(BlackPowerType.lowPower);
+        currentPower = getPower(maxPower) / getPower(BlackPowerType.lowPower);
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (!inInventory) {
-            surroundingMechanisms = SurroundingItems();
+            surroundingMechanisms = SurroundingMechanisms();
         }
     }
 }

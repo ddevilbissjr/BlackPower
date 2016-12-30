@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PowerSource : Mechanism {
+public class PowerSource : BlackPower {
 
     private void Reset () {
-        type = BlackPowerItems.PowerSource;
+        type = ItemTypes.PowerSource;
     }
 
     public List<PowerGenerator> generators = new List<PowerGenerator>();
 
     public bool generatorAttached = false;
-    bool isTiming = true;
+    private bool isTiming = true;
 
     static float startTimer = 1.0f;
     float timer = startTimer;
@@ -26,10 +26,9 @@ public class PowerSource : Mechanism {
 	void Update () {
         if (!inInventory) {
             bool checkIfGeneratorsPresent = false;
-            surroundingMechanisms = SurroundingItems();
 
             foreach(Mechanism m in surroundingMechanisms) {
-                if (m.type == BlackPowerItems.PowerGenerator) {
+                if (m.type == ItemTypes.PowerGenerator) {
                     if (!checkIfGeneratorsPresent) {
                         checkIfGeneratorsPresent = true;
                     }
@@ -66,13 +65,13 @@ public class PowerSource : Mechanism {
         int totalIncrementPower = 0;
 
         foreach(PowerGenerator pg in generators) {
-            totalIncrementPower += BlackPower.getPower(pg.maxPower) / BlackPower.getPower(BlackPowerType.lowPower);
+            totalIncrementPower += getPower(pg.maxPower) / getPower(BlackPowerType.lowPower);
         }
 
-        if (currentPower + totalIncrementPower < BlackPower.getPower(maxPower)) {
-            currentPower = BlackPower.setPower(currentPower, totalIncrementPower);
+        if (currentPower + totalIncrementPower < getPower(maxPower)) {
+            setCurrentPower(HowMany.increment, totalIncrementPower);
         } else {
-            currentPower = BlackPower.getPower(maxPower);
+            setCurrentPower(HowMany.totalValue, getPower(maxPower));
         }
     }
 }

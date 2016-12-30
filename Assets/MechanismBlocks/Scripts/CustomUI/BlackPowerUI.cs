@@ -24,11 +24,12 @@ public class BlackPowerUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (item != null) {
+            BlackPower bp = item.GetComponent<BlackPower>();
             SetCustomText(
-                item.currentPower + " BP (BlackPower)",
-                item.maxPower + " BP Power Level",
-                (BlackPower.getPower(item.maxPower) / BlackPower.getPower(BlackPowerType.lowPower)) + " BP Per Second",
-                ConnectedModules(item.SurroundingItems())
+                bp.currentPower + " BP (BlackPower)",
+                bp.maxPower + " BP Power Level",
+                (BlackPower.getPower(bp.maxPower) / BlackPower.getPower(BlackPowerType.lowPower)) + " BP Per Second",
+                ConnectedModules(item.SurroundingMechanisms())
             );
 
             currentPower.text = currentPowerText;

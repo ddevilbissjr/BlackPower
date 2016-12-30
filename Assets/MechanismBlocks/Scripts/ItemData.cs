@@ -9,7 +9,7 @@ public class ItemData : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDr
     public Item item;
 
     public UISlotType slotType;
-    public BlackPowerItems type;
+    public ItemTypes type;
     public string itemName;
     public int howMany;
     public int slotNumber;

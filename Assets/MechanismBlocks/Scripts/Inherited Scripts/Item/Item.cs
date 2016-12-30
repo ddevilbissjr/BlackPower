@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Item : MonoBehaviour {
 
-    public BlackPowerItems type;
+    public ItemTypes type;
     public string itemName;
     public int howMany = 1;
     public int stackSize = 64;
@@ -63,4 +63,12 @@ public class Item : MonoBehaviour {
 public enum HowMany {
     totalValue,
     increment
+}
+
+public enum ItemTypes {
+    Item,
+    StaticBlock,
+    Mechanism,
+    PowerSource,
+    PowerGenerator
 }

@@ -6,25 +6,15 @@ using System.Collections.Generic;
 public class Mechanism : Item {
 
     public string itemDescription;
-    public BlackPowerType maxPower = BlackPowerType.lowPower;
-    public int currentPower;
     public List<Mechanism> surroundingMechanisms;
 
     void Update () {
         if(!inInventory) {
-            surroundingMechanisms = SurroundingItems();
+            surroundingMechanisms = SurroundingMechanisms();
         }
     } 
-
-    public int getCurrentPower () {
-        return currentPower;
-    }
-
-    public void setCurrentPower (int bp) {
-        currentPower = BlackPower.setPower(currentPower, bp);
-    }
-
-    public List<Mechanism> SurroundingItems () {
+    
+    public List<Mechanism> SurroundingMechanisms () {
         List<Mechanism> blocks = new List<Mechanism>();
         Vector3[] sidesToCheckFor = {
             Vector3.right,

@@ -5,7 +5,7 @@ using UnityEngine;
 public class StaticBlock : Item {
 
     private void Reset () {
-        type = BlackPowerItems.StaticBlock;
+        type = ItemTypes.StaticBlock;
     }
 
     // Use this for initialization

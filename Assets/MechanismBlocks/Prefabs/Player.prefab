@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4057851024187846}
   m_Layer: 0
-  m_Name: Inventory
+  m_Name: Backpack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1569,9 +1569,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114183389681941282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1590,9 +1590,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114246836866031912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1611,9 +1611,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114279778391937898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1632,9 +1632,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Source. Connect Power Generator Modules To Power Up!
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
   generators: []
   generatorAttached: 0
 --- !u!114 &114339434477610572
@@ -1655,9 +1655,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114371306861617326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1709,9 +1709,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114819834629836188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1730,9 +1730,9 @@ MonoBehaviour:
   inInventory: 1
   stackable: 0
   itemDescription: Power Generator. Generates power for power sources.
+  surroundingMechanisms: []
   maxPower: 500
   currentPower: 0
-  surroundingMechanisms: []
 --- !u!114 &114848457530590838
 MonoBehaviour:
   m_ObjectHideFlags: 1

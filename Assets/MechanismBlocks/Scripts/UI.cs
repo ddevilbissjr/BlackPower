@@ -184,7 +184,7 @@ public class UI : MonoBehaviour {
             currentSlotMarker.SetAsLastSibling();
         }
 
-        int newXPos = (slot - 4) * 50;
+        int newXPos = ((int) (slot - ((inventory.hotbarSize/2.0f) - 0.5f))) * 50;
 
         currentSlotMarker.anchoredPosition = new Vector2(newXPos, currentSlotMarker.anchoredPosition.y);
     }
